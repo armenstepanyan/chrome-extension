@@ -21,3 +21,10 @@ function openImgModal(info, tab){
     console.log(info, tab)
 }
 ```
+
+Open option page on icon click
+```
+chrome.action.onClicked.addListener(function(tab) {
+	chrome.runtime.openOptionsPage();
+})
+```
