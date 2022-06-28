@@ -42,17 +42,47 @@ chrome.action.onClicked.addListener(function(tab) {
 ```
 
 Sending message to extension
+
+manifest.json
+```
+"externally_connectable": {
+  "matches": ["*://site.com/*", "*://www.site.com/*"]
+},
+```
+
 ```
 chrome.runtime.sendMessage("ahanamijdbohnllmkgmhaeobimflbfkg", data, function (response) {
 ...
 });
 ```
 
-Listens message from `page.js` injected to current site
+Listen message from `page.js` injected to current site
 ```
 chrome.runtime.onMessageExternal.addListener(function(request, sender, sendResponse) {
  ....
 });
+```
+
+### block request
+```
+const iframeHosts = [
+	'https://site.org/',
+];
+chrome.declarativeNetRequest.updateDynamicRules({
+	removeRuleIds: iframeHosts.map((h, i) => i + 1),
+	addRules: iframeHosts.map((h, i) => ({
+		id: i + 1,
+		condition: {
+			regexFilter: '/aaa',
+			resourceTypes: ['xmlhttprequest'],
+		},
+		action: {
+			type: 'block',
+
+		},
+	})),
+});
+
 ```
 
 Communication between `content.js` and `background.js`
