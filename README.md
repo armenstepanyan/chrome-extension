@@ -40,8 +40,34 @@ chrome.action.onClicked.addListener(function(tab) {
  ....
  }
 ```
+Get url 
+```
+chrome.runtime.getURL('options/index.html')
+```
+### Context menu
+```
+const CONTEXT_MENU_ID = "my_extension_menu_id";
 
-Sending message to extension
+var cmid = chrome.contextMenus.create({
+    id: CONTEXT_MENU_ID,
+    title: "Block this site",
+    contexts: ["all", "page"]
+})
+
+chrome.contextMenus.onClicked.addListener(function (info, tab) {
+    if (info.menuItemId == CONTEXT_MENU_ID) {
+        // handle click here
+    }
+});
+```
+
+Disable context menu
+```
+chrome.contextMenus.update(CONTEXT_MENU_ID, { enable: false }); // make disabled
+chrome.contextMenus.update(CONTEXT_MENU_ID, { visible: false }); // hide menu
+```
+
+### Sending message to extension
 
 manifest.json
 ```
