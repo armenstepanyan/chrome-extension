@@ -126,3 +126,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 ```
 
+### Open page on update
+```typescript
+chrome.runtime.onInstalled.addListener(function(details) {
+	if (details.reason === 'update') {
+	  chrome.tabs.create({
+		url: chrome.runtime.getURL('update.html')
+	  })
+	}
+  });
+```
+
